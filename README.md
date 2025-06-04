@@ -1,66 +1,56 @@
-## Foundry
+# TokenICO.sol
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This contract manages the sale of **Dubai2040** tokens in exchange for **Ether**.
 
-Foundry consists of:
+- Owner-only configuration of token address and sale price  
+- Secure token purchase with overflow checks  
+- Ether forwarding to the owner  
+- Functions for full token withdrawal, manual Ether transfer, and sale tracking
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+---
 
-## Documentation
+## 🔑 Key Functions
 
-https://book.getfoundry.sh/
+- `buyToken(uint256 amount) payable`: Buy tokens by sending the exact Ether  
+- `updateToken(address)`: Set the ERC20 token to be sold  
+- `updateTokenSalePrice(uint256)`: Set the sale price per token  
+- `withdrawAllTokens()`: Withdraw all remaining tokens to owner  
+- `transferEther(address, uint256)`: Send Ether to any receiver  
+- `transferToOwner(uint256)`: Manually send Ether to owner
 
-## Usage
+---
 
-### Build
+## 🔐 Security Features
 
-```shell
-$ forge build
+✅ Uses `require` extensively for input and state validation  
+✅ `onlyOwner` modifier restricts admin actions  
+✅ Overflow/underflow protection via Solidity >= 0.8.0  
+✅ Pattern: checks → effects → interactions (used with caution)
+
+⚠️ Token assumes 18 decimals (validate before deployment)  
+⚠️ No rate-limiting, frontrunning protection or KYC checks (out of scope)
+
+---
+
+## 🧪 Testing
+
+Unit tests are written using **Foundry's Forge** framework.
+
+To run the tests:
+
+```bash
+forge test -vv
 ```
 
-### Test
 
-```shell
-$ forge test
-```
+##  ✅ Test Coverage Includes:
 
-### Format
+- ✅ Successful token purchase and balance update
 
-```shell
-$ forge fmt
-```
+- ✅ Failing token purchase with incorrect Ether
 
-### Gas Snapshots
+- ✅ Withdrawal of all tokens to owner
 
-```shell
-$ forge snapshot
-```
+- ✅ Ether transfer to owner and arbitrary addresses
 
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+- ✅ Sale price and token address configuration
