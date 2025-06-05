@@ -1,4 +1,4 @@
-# INITIAN COIN OFFER
+# INITIAL COIN OFFER
 
 This contract manages the sale of **Dubai2040** tokens in exchange for **Ether**.
 
